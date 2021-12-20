@@ -1,0 +1,27 @@
+﻿@model Screening
+
+<div class="col-sm-4 col-lg-4 col-md-4">
+    <div class="thumbnail">
+        <img src="@Model.Movie.ImageUrl" alt=""/>
+        <div class="caption">
+            <h3 class="pull-right">@Model.Movie.Price.ToString("c")</h3>
+            <h2>
+                @*<a asp-controller="Food" asp-action="Details" asp-route-id="@Model.FoodId">@Model.Name</a>*@
+                <a>@Model.Movie.Title</a>
+            </h2>
+            <p>@Model.Movie.Description</p>
+            <h4>@Model.Movie.Genre</h4>
+        </div>
+        @*<div class="addToCart">
+            <p class="button">
+                <a class="btn btn-primary"
+                asp-controller = "ShoppingCart"
+                asp-action ="AddToShoppingCart"
+                asp-route-foodId="@Model.FoodId"
+                >
+                Add to cart
+                </a>
+            </p>
+        </div>*@
+    </div>
+</div>

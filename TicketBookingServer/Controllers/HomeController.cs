@@ -6,21 +6,28 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketBookingServer.Models;
+using TicketBookingServer.ViewModels;
 
 namespace TicketBookingServer.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IScreeningRepository _screeningRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IScreeningRepository screeningRepository)
         {
             _logger = logger;
+            _screeningRepository = screeningRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var homeViewModel = new HomeViewModel
+            {
+                Screenings = _screeningRepository.AllScreening
+            };
+            return View(homeViewModel);
         }
 
         public IActionResult Privacy()
