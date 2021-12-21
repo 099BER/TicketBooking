@@ -23,9 +23,13 @@ namespace TicketBookingServer.Controllers
 
         public IActionResult Index()
         {
+            var screenings = _screeningRepository.AllScreening;
+            var dates = screenings.Select(x => x.ScreeningDateTime.Date).Distinct().ToList();
+
             var homeViewModel = new HomeViewModel
             {
-                Screenings = _screeningRepository.AllScreening
+                Screenings = _screeningRepository.AllScreening,
+                Dates = dates
             };
             return View(homeViewModel);
         }

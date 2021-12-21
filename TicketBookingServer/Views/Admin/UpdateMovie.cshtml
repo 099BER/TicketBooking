@@ -1,0 +1,54 @@
+﻿@model MovieAddEditViewModel
+
+<h2>Add Movie</h2>
+<form asp-controller="Admin" asp-action="UpdateMovie" method="post" class="form-horizontal" role="form">
+    <h4>Add Movie</h4>
+    <hr/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="Movie.MovieId" class="form-control" value="@Model.Movie.MovieId"/>
+    <div class="form-group">
+        <label asp-for="Movie.Title" class="col-md-2 control-label">Title</label>
+        <div class="col-md-10">
+            <input asp-for="Movie.Title" class="form-control" value="@Model.Movie.Title"/>
+            <span asp-validation-for="Movie.Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Movie.Description" class="col-md-2 control-label">Description</label>
+        <div class="col-md-10">
+            <textarea rows="4" asp-for="Movie.Description" class="form-control">@Model.Movie.Description</textarea>
+            <span asp-validation-for="Movie.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Movie.Price" class="col-md-2 control-label">Price</label>
+        <div class="col-md-10">
+            <input asp-for="Movie.Price" class="form-control" value="@Model.Movie.Price"/>
+            <span asp-validation-for="Movie.Price" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Movie.ImageUrl" class="col-md-2 control-label">Image URL</label>
+        <div class="col-md-10">
+            <input asp-for="Movie.ImageUrl" class="form-control" value="@Model.Movie.ImageUrl"/>
+            <span asp-validation-for="Movie.ImageUrl" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Movie.GenreId" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="Movie.GenreId" class="form-select">
+                @foreach(var genre in Model.Genres)
+                {
+                    <option value="@genre.GenreId">@genre.GenreName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Update Movie"/>
+            <a asp-action="MovieManagement" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>

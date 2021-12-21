@@ -12,5 +12,7 @@ namespace TicketBookingServer.Models
         }
 
         public IEnumerable<Genre> AllGenres => _appDbContext.Genres;
+
+        public Genre GetGenreById(int id) => _appDbContext.Genres.Find(id);
     }
 }

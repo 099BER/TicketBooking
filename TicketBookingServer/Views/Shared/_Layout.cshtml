@@ -29,7 +29,18 @@
                     @*<li><a asp-controller="Food" asp-action="List">Foods</a></li>*@
                     <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
                     @* @await Component.InvokeAsync("ShoppingCartSummary")*@
-                    @if (signinManager.IsSignedIn(User) && User.IsInRole("Administrator")) {<li><a asp-controller="Admin" asp-action="UserManagement">Admin</a></li>
+                    @if (signinManager.IsSignedIn(User) && User.IsInRole("Administrator")) {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                              Admin options
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a asp-controller="Admin" asp-action="UserManagement">Manage users</a></li>
+                              <li><a asp-controller="Admin" asp-action="MovieManagement">Manage movies</a></li>
+                              <li><a asp-controller="Admin" asp-action="ScreeningManagement">Manage screenings</a></li>
+                              <li><a asp-controller="Admin" asp-action="TheatreManagement">Manage theatres</a></li>
+                            </ul>
+                          </li>
                     }
                     <partial name="_LoginPartial"/>
                 </ul>
@@ -43,6 +54,8 @@
                     The small cinema
                 </p>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-9">
                 @RenderBody()
             </div>

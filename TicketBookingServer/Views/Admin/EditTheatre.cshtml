@@ -1,0 +1,47 @@
+﻿@model EditTheatreViewModel
+
+<h2>Edit Theatre</h2>
+<form asp-controller="Admin" asp-action="EditTheatre" method="post" class="form-horizontal" role="form">
+    <h4>You can change theatre specs below</h4>
+    <hr/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input asp-for="Theatre.TheatreId" class="form-control" value="@Model.Theatre.TheatreId"/>
+    <div class="form-group">
+        <label asp-for="Theatre.Name" class="col-md-2 control-label">Name</label>
+        <div class="col-md-10">
+            <input asp-for="Theatre.Name" class="form-control" />
+            <span asp-validation-for="Theatre.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Theatre.Description" class="col-md-2 control-label">Description</label>
+        <div class="col-md-10">
+            <textarea rows="4" asp-for="Theatre.Description" class="form-control">@Model.Theatre.Description</textarea>
+            <span asp-validation-for="Theatre.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Theatre.SeatingConfigId" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="Theatre.SeatingConfigId" class="form-select">
+                @foreach(var seatingConfig in Model.SeatingConfigs)
+                {
+                    @if (seatingConfig == Model.Theatre.SeatingConfig)
+                    {
+                        <option value=@seatingConfig.SeatingConfigId selected>@seatingConfig.NumberOfSeats</option>
+                    }
+                    else
+                    {
+                        <option value=@seatingConfig.SeatingConfigId>@seatingConfig.NumberOfSeats</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Save config"/>
+            <a asp-action="EditTheatre" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>

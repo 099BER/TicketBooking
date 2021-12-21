@@ -1,9 +1,15 @@
 ﻿@model HomeViewModel
 
 <h2>Now showing</h2>
-<div class="row">
-    @foreach(var screening in Model.Screenings)
-    {
-       <partial name="_MovieCard" model="screening"/>
-    }
-</div>
+
+@foreach(var date in Model.Dates)
+{
+    <div class="row">
+        <h4>@date.ToShortDateString()</h4>
+        @foreach(var screening in Model.Screenings.Where(s => s.ScreeningDateTime.Date == date))
+        {
+            <partial name="_MovieCard" model="screening"/>
+        }
+    </div>
+}
+    

@@ -5,6 +5,7 @@ namespace TicketBookingServer.Models
 {
     public interface IGenreRepository
     {
-        IEnumerable<Genre> AllGenres { get; }
+        public IEnumerable<Genre> AllGenres { get; }
+        public Genre GetGenreById(int id);
     }
 }

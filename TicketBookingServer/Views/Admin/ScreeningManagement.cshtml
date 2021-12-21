@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Screening>
+<h2>Manage Screenings</h2>
+
+@if(!Model.Any())
+{
+    <tr><td colspan="3" class="text-center">No Screenings.</td></tr>
+}
+else
+{
+    <table class="table table-condensed table-bordered" header header-content="Movie Management">
+        <tr>
+            <th>Screening ID</th>
+            <th>Movie Title</th>
+            <th>Date and time</th>
+            <th>Theatre Name</th>
+            <th>Number of seats</th>
+        </tr>
+        @foreach(Screening screening in Model)
+        {
+            <tr>
+                <td>@screening.ScreeningId</td>
+                <td>@screening.Movie.Title</td>
+                <td>@screening.ScreeningDateTime.ToString()</td>
+                <td>@screening.Theatre.Name</td>
+                <td>@screening.Theatre.SeatingConfig.NumberOfSeats</td>
+            </tr>
+        }
+    </table>
+    <a class="btn btn-primary">Add a new screening</a>
+}

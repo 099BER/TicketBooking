@@ -37,6 +37,9 @@ namespace TicketBookingServer
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IScreeningRepository, ScreeningRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<ITheatreRepository, TheatreRepository>();
+            services.AddScoped<ISeatingConfigRepository, SeatingConfigRepository>();
             //services.AddTransient
             //services.AddSingleton
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
