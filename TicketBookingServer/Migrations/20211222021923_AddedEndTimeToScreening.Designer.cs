@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketBookingServer.Models;
 
 namespace TicketBookingServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211222021923_AddedEndTimeToScreening")]
+    partial class AddedEndTimeToScreening
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,9 +288,6 @@ namespace TicketBookingServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
@@ -301,6 +300,9 @@ namespace TicketBookingServer.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<TimeSpan>("duration")
+                        .HasColumnType("time");
+
                     b.HasKey("MovieId");
 
                     b.HasIndex("GenreId");
@@ -312,31 +314,31 @@ namespace TicketBookingServer.Migrations
                         {
                             MovieId = 1,
                             Description = "The first movie ever created.",
-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
                             GenreId = 1,
                             ImageUrl = "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg",
                             Price = 20m,
-                            Title = "Movie 1: First Movie"
+                            Title = "Movie 1: First Movie",
+                            duration = new TimeSpan(0, 0, 0, 0, 0)
                         },
                         new
                         {
                             MovieId = 2,
                             Description = "The second movie ever created.",
-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
                             GenreId = 2,
                             ImageUrl = "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg",
                             Price = 20m,
-                            Title = "Movie 2: Second Movie"
+                            Title = "Movie 2: Second Movie",
+                            duration = new TimeSpan(0, 0, 0, 0, 0)
                         },
                         new
                         {
                             MovieId = 3,
                             Description = "The third movie ever created.",
-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
                             GenreId = 3,
                             ImageUrl = "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg",
                             Price = 20m,
-                            Title = "Movie 3: Third Movie"
+                            Title = "Movie 3: Third Movie",
+                            duration = new TimeSpan(0, 0, 0, 0, 0)
                         });
                 });
 

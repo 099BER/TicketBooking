@@ -1,4 +1,6 @@
-﻿namespace TicketBookingServer.Models
+﻿using System;
+
+namespace TicketBookingServer.Models
 {
     public class Movie
     {
@@ -9,5 +11,6 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }

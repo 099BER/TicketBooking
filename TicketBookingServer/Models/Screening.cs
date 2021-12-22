@@ -11,5 +11,6 @@ namespace TicketBookingServer.Models
         public int TheatreId { get; set; }
         public Theatre Theatre { get; set; }
         public DateTime ScreeningDateTime  { get; set; }
+        public DateTime EndDateTime { get; set; }
     }
 }

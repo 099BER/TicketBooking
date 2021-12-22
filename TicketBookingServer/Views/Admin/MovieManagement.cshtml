@@ -14,6 +14,7 @@ else
             <th>Title</th>
             <th>Description</th>
             <th>Genre</th>
+            <th>Duration</th>
             <th></th>
         </tr>
         @foreach(Movie movie in Model)
@@ -23,6 +24,7 @@ else
                 <td>@movie.Title</td>
                 <td>@movie.Description</td>
                 <td>@movie.Genre.GenreName</td>
+                <td>@movie.Duration.ToString()</td>
                 <td>
                     <form asp-action="DeleteMovie" asp-route-id="@movie.MovieId" method="get">
                         <a class="btn btn-sm btn-primary" asp-action="UpdateMovie" asp-route-id="@movie.MovieId">Edit</a>

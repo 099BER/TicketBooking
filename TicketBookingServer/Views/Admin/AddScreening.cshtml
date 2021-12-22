@@ -1,0 +1,47 @@
+﻿@model ScreeningAddEditViewModel
+
+
+<h2>Add Screening</h2>
+<form asp-controller="Admin" asp-action="AddScreening" method="post" class="form-horizontal" role="form">
+    <h4>Add Screening</h4>
+    <hr/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Screening.ScreeningId" class="form-control" value="@Model.Screening.ScreeningId"/>
+
+    <div class="form-group">
+        <label asp-for="Screening.MovieId" class="col-md-2 control-label">Select movie</label>
+        <div class="col-md-10">
+            <select asp-for="Screening.MovieId" class="form-select">
+                @foreach(var movie in Model.MovieList)
+                {
+                    <option value="@movie.MovieId">@movie.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Screening.TheatreId" class="col-md-2 control-label">Select Theatre</label>
+        <div class="col-md-10">
+            <select asp-for="Screening.TheatreId" class="form-select">
+                @foreach(var theatre in Model.TheatreList)
+                {
+                    <option value="@theatre.TheatreId">@theatre.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Screening.ScreeningDateTime" class="col-md-2 control-label">Screening date and time</label>
+        <div class="col-md-10">
+            <input type="datetime-local" asp-for="Screening.ScreeningDateTime" class="form-control" value="@Model.Screening.ScreeningDateTime"/>
+            <span asp-validation-for="Screening.ScreeningDateTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Add Movie"/>
+            <a asp-action="ScreeningManagement" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>

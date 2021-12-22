@@ -61,6 +61,7 @@ namespace WebApplication2.Controllers
         public IActionResult AddMovie(Movie movie)
         {
             movie.Genre = _genreRepository.GetGenreById(movie.MovieId);
+            movie.Duration = new TimeSpan(0, 2, 0, 0, 0);
             bool succeed = _movieRepository.AddMovie(movie);
             if (succeed)
             {
@@ -158,7 +159,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public IActionResult DeleteTheatre(int id)
         {
-            Theatre selectedTheatre =  _theatreRepository.GetTheatrebyId(id);
+            Theatre selectedTheatre = _theatreRepository.GetTheatrebyId(id);
             if (selectedTheatre != null)
             {
                 bool succeed = _theatreRepository.DeleteTheatre(selectedTheatre);
@@ -253,12 +254,84 @@ namespace WebApplication2.Controllers
             return RedirectToAction("TheatreManagement");
         }
         /***************************************************************************************/
+        /*************************** Screening management **************************************/
         public IActionResult ScreeningManagement()
         {
             var screenings = _screeningRepository.AllScreening;
             return View(screenings);
         }
+        [HttpGet]
+        public IActionResult AddScreening()
+        {
+            var screeningAddEditViewModel = new ScreeningAddEditViewModel
+            {
+                Screening = new Screening(),
+                TheatreList = _theatreRepository.AllTheatres,
+                MovieList = _movieRepository.AllMovies
+            };
+            return View(screeningAddEditViewModel);
+        }
 
+        [HttpPost]
+        public IActionResult AddScreening(Screening screening)
+        {
+            screening.Movie = _movieRepository.GetMovieById(screening.MovieId);
+            screening.EndDateTime = screening.ScreeningDateTime.Add(screening.Movie.Duration);
+            screening.Theatre = _theatreRepository.GetTheatrebyId(screening.TheatreId);
+
+            // See if theres another screeening in the same time, same theatre
+            var getConflicts = _screeningRepository.AllScreening.Where(s =>
+            {
+                bool sameTheatre = (s.TheatreId == screening.Theatre.TheatreId);
+                bool startTimeOverlap = (s.ScreeningDateTime >= screening.ScreeningDateTime || s.EndDateTime >= screening.ScreeningDateTime);
+                bool endTimeOverlap = (s.ScreeningDateTime <= screening.EndDateTime || s.EndDateTime <= screening.EndDateTime);
+                return (startTimeOverlap || endTimeOverlap) && sameTheatre;
+            });
+
+            if(getConflicts.Count() > 0)
+            {
+                //ModelState.AddModelError("", "There is a date/time conflict at this theatre.");
+                // Feedback error to the user here.
+                return RedirectToAction("ScreeningManagement");
+            }
+
+            bool succeed = _screeningRepository.AddScreening(screening);
+            if (succeed)
+            {
+                return RedirectToAction("ScreeningManagement");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong adding the screening.");
+            }
+
+            return RedirectToAction("ScreeningManagement");
+        }
+
+        [HttpGet]
+        public IActionResult DeleteScreening(int id)
+        {
+            Screening selectedScreening = _screeningRepository.GetScreeningById(id);
+            if (selectedScreening != null)
+            {
+                bool succeed = _screeningRepository.DeleteScreening(selectedScreening);
+                if (succeed)
+                {
+                    return RedirectToAction("ScreeningManagement");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Something went wrong while deleting the screening.");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "This screening cannot be found.");
+            }
+            return RedirectToAction("ScreeningManagement");
+        }
+
+        /***************************************************************************************/
         [HttpGet]
         public IActionResult AddUser()
         {
