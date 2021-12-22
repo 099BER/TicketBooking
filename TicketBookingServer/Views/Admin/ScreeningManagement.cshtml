@@ -11,7 +11,8 @@ else
         <tr>
             <th>Screening ID</th>
             <th>Movie Title</th>
-            <th>Date and time</th>
+            <th>Start Date and time</th>
+            <th>End Date and time</th>
             <th>Theatre Name</th>
             <th>Number of seats</th>
             <th></th>
@@ -22,6 +23,7 @@ else
                 <td>@screening.ScreeningId</td>
                 <td>@screening.Movie.Title</td>
                 <td>@screening.ScreeningDateTime.ToString()</td>
+                <td>@screening.EndDateTime.ToString()</td>
                 <td>@screening.Theatre.Name</td>
                 <td>@screening.Theatre.SeatingConfig.NumberOfSeats</td>
                 <td>

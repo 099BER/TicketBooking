@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,9 +41,17 @@ namespace TicketBookingServer
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<ITheatreRepository, TheatreRepository>();
             services.AddScoped<ISeatingConfigRepository, SeatingConfigRepository>();
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+            }));
             //services.AddTransient
             //services.AddSingleton
-            services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+            /*services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "AngularApp/dist";
+            });*/
+
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddControllersWithViews();
@@ -60,6 +69,20 @@ namespace TicketBookingServer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.Map("/BookingEngine", app1 => app1.UseSpa(spa =>
+            {
+                //spa.Options.SourcePath = "AngularApp";
+
+                if (env.IsDevelopment())
+                {
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                }
+                })
+            );
+            
+            app.UseCors("ApiCorsPolicy");
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();

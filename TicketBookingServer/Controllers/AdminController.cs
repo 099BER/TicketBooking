@@ -290,9 +290,14 @@ namespace WebApplication2.Controllers
 
             if(getConflicts.Count() > 0)
             {
-                //ModelState.AddModelError("", "There is a date/time conflict at this theatre.");
-                // Feedback error to the user here.
-                return RedirectToAction("ScreeningManagement");
+                ModelState.AddModelError("", "There is a date/time conflict at this theatre.");
+                var screeningAddEditViewModel = new ScreeningAddEditViewModel
+                {
+                    Screening = screening,
+                    TheatreList = _theatreRepository.AllTheatres,
+                    MovieList = _movieRepository.AllMovies
+                };
+                return View(screeningAddEditViewModel);
             }
 
             bool succeed = _screeningRepository.AddScreening(screening);

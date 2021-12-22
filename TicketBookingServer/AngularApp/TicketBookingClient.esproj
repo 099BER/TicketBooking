@@ -7,7 +7,34 @@
     <JavaScriptTestFramework>Jasmine</JavaScriptTestFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
+    <Script Include="karma.conf.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\app\booking\" />
+    <Folder Include="src\app\completed\" />
+    <Folder Include="src\app\data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".browserslistrc" />
+    <None Include=".editorconfig" />
+    <None Include=".gitignore" />
+    <None Include="angular.json" />
+    <None Include="nuget.config" />
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+    <None Include="README.md" />
+    <None Include="src\assets\.gitkeep" />
+    <None Include="src\environments\environment.prod.ts" />
+    <None Include="src\environments\environment.ts" />
+    <None Include="src\favicon.ico" />
+    <None Include="src\index.html" />
+    <None Include="src\main.ts" />
+    <None Include="src\polyfills.ts" />
+    <None Include="src\styles.css" />
+    <None Include="src\test.ts" />
+    <None Include="tsconfig.app.json" />
+    <None Include="tsconfig.json" />
+    <None Include="tsconfig.spec.json" />
   </ItemGroup>
   <!-- This target is copied from the ASP.NET SPA template in order to ensure node_modules are in place. -->
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

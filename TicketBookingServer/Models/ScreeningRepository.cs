@@ -37,7 +37,7 @@ namespace TicketBookingServer.Models
                 _appDbContext.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }

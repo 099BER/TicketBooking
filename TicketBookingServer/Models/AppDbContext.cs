@@ -15,10 +15,8 @@ namespace TicketBookingServer.Models
         public DbSet<Movie>  Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<SeatingConfig> SeatingConfigs { get; set; }
-        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set;}
         public DbSet<Screening> Screenings { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Theatre> Theatres { get; set; }
         public DbSet<ChosenSeat> ChosenSeats { get; set; }
 
