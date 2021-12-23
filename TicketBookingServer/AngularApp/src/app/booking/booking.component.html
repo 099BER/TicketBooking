@@ -1,1 +1,10 @@
-<h4>Movie: {{ selectedScreeningData }}</h4>
+
+<h3>Movie: {{ screeningData.movie.title }} </h3>
+<h4>Theatre name: {{ screeningData.theatre.name }} </h4>
+<h4>Theatre number: {{ screeningData.theatre.theatreId }} </h4>
+<h4>Start date and time: {{ screeningData.screeningDateTime | date:'short'}} </h4>
+<h4>End date and time: {{ screeningData.endDateTime | date:'short' }} </h4>
+<h4>Price: {{ screeningData.movie.price | currency }} </h4>
+
+<app-seat-config1 *ngIf="isSeatingConfig(1)"></app-seat-config1>
+<app-seat-config2 *ngIf="isSeatingConfig(2)"></app-seat-config2>

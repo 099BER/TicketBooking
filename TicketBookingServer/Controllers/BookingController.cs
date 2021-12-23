@@ -30,17 +30,11 @@ namespace TicketBookingServer.Controllers
             return RedirectToAction("","BookingEngine");
         }
 
-        public void Test()
-        {
-            System.Diagnostics.Debug.WriteLine(HttpContext.Session.GetInt32("bookingMovieId"));
-        }
-
         [HttpGet]
         public IActionResult GetSelectedScreeningData()
         {
             int screeningId = HttpContext.Session.GetInt32("screeningId") ?? 0;
             var screeningData = _screeningRepository.GetScreeningById(screeningId);
-            System.Diagnostics.Debug.WriteLine(screeningId);
             return Json(screeningData);
         }
 

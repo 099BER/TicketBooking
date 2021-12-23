@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Data } from '@angular/router';
 import { BookingDataService } from '../data/booking-data.service';
+import { ScreeningData } from '../dataModels/screening-data';
 
 @Component({
   selector: 'app-booking',
@@ -8,13 +10,18 @@ import { BookingDataService } from '../data/booking-data.service';
 })
 export class BookingComponent implements OnInit {
 
-  selectedScreeningData?: Object;
+  public screeningData!: ScreeningData;
+
   constructor(private bookingDataService: BookingDataService) { }
 
   ngOnInit(): void {
     this.bookingDataService.GetSelectedScreeningData().subscribe(
-      result => this.selectedScreeningData = result,
-      error => console.log(error)/*window.location.href = 'http://localhost:33855/'*/);
+      result => this.screeningData = result,
+      error => console.log(error));
+  }
+
+  public isSeatingConfig(templateId:number): boolean {
+    return templateId == this.screeningData.theatre.seatingConfigId;
   }
 
 }

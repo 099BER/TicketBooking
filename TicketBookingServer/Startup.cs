@@ -41,16 +41,20 @@ namespace TicketBookingServer
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<ITheatreRepository, TheatreRepository>();
             services.AddScoped<ISeatingConfigRepository, SeatingConfigRepository>();
-            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            services.AddCors(options =>
             {
-                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
-            }));
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+                    //.AllowCredentials());
+            });
             //services.AddTransient
             //services.AddSingleton
-            /*services.AddSpaStaticFiles(configuration =>
+            services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "AngularApp/dist";
-            });*/
+                configuration.RootPath = "AngularApp/dist/ticket-booking-client";
+            });
 
             services.AddHttpContextAccessor();
             services.AddSession();
@@ -70,24 +74,19 @@ namespace TicketBookingServer
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.Map("/BookingEngine", app1 => app1.UseSpa(spa =>
-            {
-                //spa.Options.SourcePath = "AngularApp";
-
-                if (env.IsDevelopment())
-                {
-                    //spa.UseAngularCliServer(npmScript: "start");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-                }
-                })
-            );
-            
-            app.UseCors("ApiCorsPolicy");
+            app.UseCors("CorsPolicy");
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // last attempt using static spa files
+            app.Map("/BookingEngine", app1 => {
+                app1.UseSpaStaticFiles();
+                app1.UseSpa(spa =>{});
+                }
+            );
 
             app.UseEndpoints(endpoints =>
             {
@@ -96,6 +95,7 @@ namespace TicketBookingServer
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }
