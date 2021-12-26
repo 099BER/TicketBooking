@@ -17,11 +17,13 @@ namespace TicketBookingServer.Controllers
         private readonly IScreeningRepository _screeningRepository;
         private readonly IMovieRepository _movieRepository;
         private IOrderRepository _orderRepository;
-        public BookingController(IScreeningRepository screeningRepository, IOrderRepository orderRepository, IMovieRepository movieRepository)
+        private readonly IChosenSeatRepository _chosenSeatRepository;
+        public BookingController(IScreeningRepository screeningRepository, IOrderRepository orderRepository, IMovieRepository movieRepository, IChosenSeatRepository chosenSeatRepository)
         {
             _screeningRepository = screeningRepository;
             _orderRepository = orderRepository;
             _movieRepository = movieRepository;
+            _chosenSeatRepository = chosenSeatRepository;
         }
         [HttpGet]
         public IActionResult CreateBooking(int id)
@@ -38,9 +40,20 @@ namespace TicketBookingServer.Controllers
             return Json(screeningData);
         }
 
-        [HttpPost]
-        public IActionResult PostBookingData(int screeningId, IEnumerable<int> seatSelection)
+        [HttpGet]
+        public IActionResult GetOccupiedSeatsForScreening()
         {
+            int screeningId = HttpContext.Session.GetInt32("screeningId") ?? 0;
+            var occupiedSeats = _chosenSeatRepository.GetOccupiedSeatsByScreeningId(screeningId);
+            return Json(occupiedSeats);
+        }
+
+        [HttpPost]
+        public IActionResult PostBookingData([FromBody] List<int> seatSelection)
+        {
+            //System.Diagnostics.Debug.WriteLine(selectedSeats.Count());
+            int screeningId = HttpContext.Session.GetInt32("screeningId") ?? 0;
+            System.Diagnostics.Debug.WriteLine(seatSelection.Count());
             try
             {
                 List<ChosenSeat> chosenSeats = new List<ChosenSeat>();
@@ -62,13 +75,26 @@ namespace TicketBookingServer.Controllers
                     ChosenSeats = chosenSeats,
                     OrderTotal = chosenSeats.Count() * movie.Price
                 };
+
+                _orderRepository.CreateOrder(order);
             }
             catch
             {
+               
                 return StatusCode(500);
             }
-            
+
             return StatusCode(200);
+        }
+
+        [HttpGet]
+        public IActionResult Manage()
+        {
+            var vm = new ManageBookingsViewModel
+            {
+                orders = _orderRepository.AllOrdersForUser(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            };
+            return View(vm);
         }
     }
 }

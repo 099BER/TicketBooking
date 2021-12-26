@@ -31,6 +31,10 @@ input:checked + label {
   visibility: hidden;
 }
 
+.unavail {
+    background-color:gray;
+}
+
 input:checked + label .check {
   visibility: visible;
 }

@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="AngularApp\src\app\dataModels\movie.ts" />
     <None Remove="AngularApp\src\app\dataModels\screening-data.ts" />
+    <None Remove="AngularApp\src\app\dataModels\seating-config.ts" />
     <None Remove="AngularApp\src\app\dataModels\theatre.ts" />
   </ItemGroup>
 
@@ -30,12 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Booking\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="AngularApp\src\app\dataModels\movie.ts" />
     <TypeScriptCompile Include="AngularApp\src\app\dataModels\screening-data.ts" />
+    <TypeScriptCompile Include="AngularApp\src\app\dataModels\seating-config.ts" />
     <TypeScriptCompile Include="AngularApp\src\app\dataModels\theatre.ts" />
   </ItemGroup>
 

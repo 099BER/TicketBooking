@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TicketBookingServer.Models
 {
@@ -10,6 +12,11 @@ namespace TicketBookingServer.Models
         public OrderRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
+        }
+
+        public IEnumerable<Order> AllOrdersForUser(string userId)
+        {
+            return _appDbContext.Orders.Where(o => o.UserId == userId);
         }
 
         public void CreateOrder(Order order)

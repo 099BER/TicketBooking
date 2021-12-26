@@ -41,6 +41,7 @@ namespace TicketBookingServer
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<ITheatreRepository, TheatreRepository>();
             services.AddScoped<ISeatingConfigRepository, SeatingConfigRepository>();
+            services.AddScoped<IChosenSeatRepository, ChosenSeatRepository>();
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",

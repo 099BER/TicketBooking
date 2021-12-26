@@ -1,27 +1,30 @@
-<div class="border-top d-inline-block">
-  <div class="row"><div class="col"></div><div style="text-align: center" class="col">Screen</div><div class="col"></div></div>
-  <div class="row">
-    <input id="1" name="1" type="checkbox" />
-    <label for="1" class="m-1">1</label>
-    <input id="2" name="2" type="checkbox" />
-    <label for="2" class="m-1">2</label>
-    <input id="3" name="3" type="checkbox" />
-    <label for="3" class="m-1">3</label>
-    <input id="4" name="4" type="checkbox" />
-    <label for="4" class="m-1">4</label>
-    <input id="5" name="5" type="checkbox" />
-    <label for="5" class="m-1">5</label>
+<form (ngSubmit)="submit()" [formGroup]="seatSelection">
+  <div class="border-top d-inline-block">
+    <div class="row"><div class="col"></div><div style="text-align: center" class="col">Screen</div><div class="col"></div></div>
+    <div class="row">
+      <input id="1" name="1" type="checkbox" formControlName="1" [disabled]="occupiedSeats.includes(1)" />
+      <label for="1" class="m-1" [class.unavail]="occupiedSeats.includes(1)">1</label>
+      <input id="2" name="2" type="checkbox" formControlName="2" [disabled]="occupiedSeats.includes(2)" />
+      <label for="2" class="m-1" [class.unavail]="occupiedSeats.includes(2)">2</label>
+      <input id="3" name="3" type="checkbox" formControlName="3" [disabled]="occupiedSeats.includes(3)" />
+      <label for="3" class="m-1" [class.unavail]="occupiedSeats.includes(3)">3</label>
+      <input id="4" name="4" type="checkbox" formControlName="4" [disabled]="occupiedSeats.includes(4)" />
+      <label for="4" class="m-1" [class.unavail]="occupiedSeats.includes(4)">4</label>
+      <input id="5" name="5" type="checkbox" formControlName="5" [disabled]="occupiedSeats.includes(5)" />
+      <label for="5" class="m-1" [class.unavail]="occupiedSeats.includes(5)">5</label>
+    </div>
+    <div class="row">
+      <input id="6" name="6" type="checkbox" formControlName="6" [disabled]="occupiedSeats.includes(6)" />
+      <label for="6" class="m-1" [class.unavail]="occupiedSeats.includes(6)">6</label>
+      <input id="7" name="7" type="checkbox" formControlName="7" [disabled]="occupiedSeats.includes(7)" />
+      <label for="7" class="m-1" [class.unavail]="occupiedSeats.includes(7)">7</label>
+      <input id="8" name="8" type="checkbox" formControlName="8" [disabled]="occupiedSeats.includes(8)" />
+      <label for="8" class="m-1" [class.unavail]="occupiedSeats.includes(8)">8</label>
+      <input id="9" name="9" type="checkbox" formControlName="9" [disabled]="occupiedSeats.includes(9)" />
+      <label for="9" class="m-1" [class.unavail]="occupiedSeats.includes(9)">9</label>
+      <input id="10" name="10" type="checkbox" formControlName="10" [disabled]="occupiedSeats.includes(10)" />
+      <label for="10" class="m-1" [class.unavail]="occupiedSeats.includes(10)">10</label>
+    </div>
   </div>
-  <div class="row">
-    <input id="6" name="6" type="checkbox" />
-    <label for="6" class="m-1">6</label>
-    <input id="7" name="7" type="checkbox" />
-    <label for="7" class="m-1">7</label>
-    <input id="8" name="8" type="checkbox" />
-    <label for="8" class="m-1">8</label>
-    <input id="9" name="9" type="checkbox" />
-    <label for="9" class="m-1">9</label>
-    <input id="10" name="10" type="checkbox" />
-    <label for="10" class="m-1">10</label>
-  </div>
-</div>
+  <input type="submit" value="Submit Booking"/>
+</form>

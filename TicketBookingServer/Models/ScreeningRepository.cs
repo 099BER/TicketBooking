@@ -47,7 +47,5 @@ namespace TicketBookingServer.Models
         {
             return _appDbContext.Screenings.Include(c => c.Movie).Include(c => c.Theatre).Include(c=>c.Theatre.SeatingConfig).FirstOrDefault(f => f.ScreeningId == screeningId);
         }
-
-
     }
 }

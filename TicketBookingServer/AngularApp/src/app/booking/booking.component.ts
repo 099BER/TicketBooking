@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Data } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { mergeMap } from 'rxjs/operators';
+import { Data, Router } from '@angular/router';
 import { BookingDataService } from '../data/booking-data.service';
 import { ScreeningData } from '../dataModels/screening-data';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
@@ -10,13 +12,26 @@ import { ScreeningData } from '../dataModels/screening-data';
 })
 export class BookingComponent implements OnInit {
 
-  public screeningData!: ScreeningData;
+  screeningData!: ScreeningData;
+  unavailableSeats: number[];
 
-  constructor(private bookingDataService: BookingDataService) { }
+  constructor(private bookingDataService: BookingDataService, private router: Router) {
+    this.unavailableSeats = [];
+  }
 
   ngOnInit(): void {
     this.bookingDataService.GetSelectedScreeningData().subscribe(
       result => this.screeningData = result,
+      error => console.log(error));
+
+    this.bookingDataService.GetOccupiedSeatsForScreening().subscribe(
+      result => this.unavailableSeats = result,
+      error => console.log(error));
+  }
+
+  onSubmitToParent(selectedSeats: number[]): void {
+    this.bookingDataService.PostBookingData(JSON.stringify(selectedSeats)).subscribe(
+      result => this.router.navigate(['completed']),
       error => console.log(error));
   }
 

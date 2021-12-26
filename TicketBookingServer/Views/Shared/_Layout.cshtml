@@ -25,10 +25,8 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    @*@await Component.InvokeAsync("CategoryMenu")*@
-                    @*<li><a asp-controller="Food" asp-action="List">Foods</a></li>*@
+                    @if (signinManager.IsSignedIn(User)){<li><a asp-controller="Booking" asp-action="Manage">Manage Bookings</a></li>}
                     <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
-                    @* @await Component.InvokeAsync("ShoppingCartSummary")*@
                     @if (signinManager.IsSignedIn(User) && User.IsInRole("Administrator")) {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
