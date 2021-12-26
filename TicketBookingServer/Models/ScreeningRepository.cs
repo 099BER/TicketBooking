@@ -13,7 +13,7 @@ namespace TicketBookingServer.Models
         {
             _appDbContext = appDbContext;
         }
-        public IEnumerable<Screening> AllScreening => _appDbContext.Screenings.Include(c => c.Movie).Include(c => c.Theatre).Include(c => c.Theatre.SeatingConfig);
+        public IEnumerable<Screening> AllScreening => _appDbContext.Screenings.Include(c => c.Movie).Include(c => c.Movie.Genre).Include(c => c.Theatre).Include(c => c.Theatre.SeatingConfig);
 
         public bool AddScreening(Screening screening)
         {
@@ -45,7 +45,7 @@ namespace TicketBookingServer.Models
 
         public Screening GetScreeningById(int screeningId)
         {
-            return _appDbContext.Screenings.Include(c => c.Movie).Include(c => c.Theatre).Include(c=>c.Theatre.SeatingConfig).FirstOrDefault(f => f.ScreeningId == screeningId);
+            return _appDbContext.Screenings.Include(c => c.Movie).Include(c => c.Movie.Genre).Include(c => c.Theatre).Include(c=>c.Theatre.SeatingConfig).FirstOrDefault(f => f.ScreeningId == screeningId);
         }
     }
 }

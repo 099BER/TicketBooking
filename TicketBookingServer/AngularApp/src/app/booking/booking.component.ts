@@ -14,19 +14,29 @@ export class BookingComponent implements OnInit {
 
   screeningData!: ScreeningData;
   unavailableSeats: number[];
+  selectedSeats: number[];
+  numOfSeats!: number;
 
   constructor(private bookingDataService: BookingDataService, private router: Router) {
     this.unavailableSeats = [];
+    this.selectedSeats = [];
   }
 
   ngOnInit(): void {
     this.bookingDataService.GetSelectedScreeningData().subscribe(
-      result => this.screeningData = result,
+      result => {
+        this.screeningData = result;
+        this.numOfSeats = result.theatre.seatingConfig.NumberOfSeats;
+      },
       error => console.log(error));
 
     this.bookingDataService.GetOccupiedSeatsForScreening().subscribe(
       result => this.unavailableSeats = result,
       error => console.log(error));
+  }
+
+  onUpdateParent(selectedSeats: number[]): void {
+    this.selectedSeats = selectedSeats;
   }
 
   onSubmitToParent(selectedSeats: number[]): void {

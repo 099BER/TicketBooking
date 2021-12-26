@@ -4,8 +4,8 @@
 
 @foreach(var date in Model.Dates)
 {
-    <div class="row">
-        <h4>@date.ToShortDateString()</h4>
+    <div class="row border-bottom">
+        <h3>@date.ToShortDateString()</h3>
         @foreach(var screening in Model.Screenings.Where(s => s.ScreeningDateTime.Date == date))
         {
             <partial name="_MovieCard" model="screening"/>

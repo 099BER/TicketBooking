@@ -1,15 +1,13 @@
 ﻿@model Screening
 
-<div class="col-sm-4 col-lg-4 col-md-4">
+<div class="col-sm-5 col-lg-5 col-md-5">
     <div class="thumbnail">
         <img src="@Model.Movie.ImageUrl" alt=""/>
         <div class="caption">
-            <h3 class="pull-right">@Model.Movie.Price.ToString("c")</h3>
             <h2>
                 <a asp-controller="Movie" asp-action="Details" asp-route-id="@Model.ScreeningId">@Model.Movie.Title</a>
             </h2>
-            <p>@Model.Movie.Description</p>
-            <h4>@Model.Movie.Genre</h4>
+            <h4>@Model.Movie.Genre.GenreName</h4>
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
 export interface SeatingConfig {
-  SeatingConfigId: number | null,
-  NumberOfSeats: number | null,
+  SeatingConfigId: number,
+  NumberOfSeats: number,
 }

@@ -1,6 +1,7 @@
 <form (ngSubmit)="submit()" [formGroup]="seatSelection">
   <div class="border-top d-inline-block">
     <div class="row"><div class="col"></div><div style="text-align: center" class="col">Screen</div><div class="col"></div></div>
+    <div style="height:5em"></div>
     <div class="row">
       <input id="1" name="1" type="checkbox" formControlName="1" [disabled]="occupiedSeats.includes(1)" />
       <label for="1" class="m-1" [class.unavail]="occupiedSeats.includes(1)">1</label>
@@ -26,5 +27,6 @@
       <label for="10" class="m-1" [class.unavail]="occupiedSeats.includes(10)">10</label>
     </div>
   </div>
-  <input type="submit" value="Submit Booking"/>
+  <div class="mt-3"></div>
+  <input type="submit" value="Submit Booking" />
 </form>

@@ -11,6 +11,7 @@ export class SeatConfig1Component implements OnInit {
   selectedSeats: number[];
   @Input() occupiedSeats!: number[];
   @Output() submitToParent: EventEmitter<number[]> = new EventEmitter();
+  @Output() updateParent: EventEmitter<number[]> = new EventEmitter();
 
   constructor(private fb: FormBuilder) {
     this.selectedSeats = [];
@@ -29,19 +30,25 @@ export class SeatConfig1Component implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.seatSelection.valueChanges.subscribe(value => {
+      this.selectedSeats = [];
+      for (const seat in value) {
+        if (value[seat]) {
+          this.selectedSeats.push(parseInt(seat));
+        }
+      }
+      this.updateParent.emit(this.selectedSeats);
+    });
   }
 
   submit() {
+    this.selectedSeats = [];
     var formVals = this.seatSelection.value;
     for (const seat in formVals) {
       if (formVals[seat]) {
         this.selectedSeats.push(parseInt(seat));
       }
     }
-    console.log(this.selectedSeats);
     this.submitToParent.emit(this.selectedSeats);
-    
   }
-
 }

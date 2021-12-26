@@ -19,12 +19,12 @@ else
             <tr>
                 <td>@order.OrderId</td>
                 <td>
-                    <div>Order total: @order.OrderTotal</div>
+                    <div>Order total: @order.OrderTotal.ToString("C") </div>
                     <div>Date ordered: @order.OrderPlaced.ToShortDateString()</div>
                 
                 </td>
                 <td>
-                    <form asp-action="DeleteOrder" asp-route-id="@order.OrderId" method="post">
+                    <form asp-action="DeleteBookingByOrderId" asp-route-id="@order.OrderId" method="get">
                         <Button type="submit"
                         onclick="return confirm('Are you sure you want to remove this order?');"
                         class="btn btn-sm btn-danger">

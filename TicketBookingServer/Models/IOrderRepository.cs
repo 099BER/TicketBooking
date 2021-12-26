@@ -7,5 +7,6 @@ namespace TicketBookingServer.Models
     {
         public void CreateOrder(Order order);
         public IEnumerable<Order> AllOrdersForUser(string userId);
+        public void DeleteOrderById(int id);
     }
 }

@@ -25,5 +25,12 @@ namespace TicketBookingServer.Models
             _appDbContext.Orders.Add(order);
             _appDbContext.SaveChanges();
         }
+        public void DeleteOrderById(int id)
+        {
+            Order order = new Order() { OrderId = id };
+            _appDbContext.Orders.Attach(order);
+            _appDbContext.Orders.Remove(order);
+            _appDbContext.SaveChanges();
+        }
     }
 }

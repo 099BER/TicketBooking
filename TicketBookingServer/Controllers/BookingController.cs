@@ -12,6 +12,7 @@ using System.Collections.Generic;
 
 namespace TicketBookingServer.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly IScreeningRepository _screeningRepository;
@@ -37,6 +38,7 @@ namespace TicketBookingServer.Controllers
         {
             int screeningId = HttpContext.Session.GetInt32("screeningId") ?? 0;
             var screeningData = _screeningRepository.GetScreeningById(screeningId);
+            screeningData.Movie.Genre = null;
             return Json(screeningData);
         }
 
@@ -95,6 +97,13 @@ namespace TicketBookingServer.Controllers
                 orders = _orderRepository.AllOrdersForUser(User.FindFirst(ClaimTypes.NameIdentifier).Value)
             };
             return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteBookingByOrderId(int id)
+        {
+            _orderRepository.DeleteOrderById(id);
+            return RedirectToAction("Manage");
         }
     }
 }

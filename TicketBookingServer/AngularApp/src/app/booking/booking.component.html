@@ -1,26 +1,15 @@
-<div class="row">
+<div class="row mb-3">
+  <h3>Movie: {{ screeningData.movie.title }} </h3>
   <div class="col">
-    <h3>Movie: {{ screeningData.movie.title }} </h3>
     <h4>Theatre name: {{ screeningData.theatre.name }} </h4>
     <h4>Theatre number: {{ screeningData.theatre.theatreId }} </h4>
     <h4>Start date and time: {{ screeningData.screeningDateTime | date:'short'}} </h4>
     <h4>End date and time: {{ screeningData.endDateTime | date:'short' }} </h4>
     <h4>Price: {{ screeningData.movie.price | currency }} </h4>
-  </div>
-  <div class="col">
-    <h3>Seats selected:</h3>
-    <p *ngFor=""></p>
-    <h4>Theatre name: {{ screeningData.theatre.name }} </h4>
-
-    <h4>Theatre number: {{ screeningData.theatre.theatreId }} </h4>
-    <h4>Start date and time: {{ screeningData.screeningDateTime | date:'short'}} </h4>
-    <h4>End date and time: {{ screeningData.endDateTime | date:'short' }} </h4>
-    <h4>Price: {{ screeningData.movie.price | currency }} </h4>
+    <h4>Quantity: {{ selectedSeats.length }} </h4>
+    <h4>Total Price: {{ screeningData.movie.price * selectedSeats.length | currency }} </h4>
   </div>
 </div>
 
-
-<app-seat-config1 *ngIf="isSeatingConfig(1)" [occupiedSeats]='unavailableSeats' (submitToParent) = 'onSubmitToParent($event)'></app-seat-config1>
-<app-seat-config2 *ngIf="isSeatingConfig(2)"></app-seat-config2>
-<!--(notify) = 'onNotify($event)'-->
-<!-- [occupiedSeats]='unavailableSeats' -->
+<app-seat-config1 *ngIf="isSeatingConfig(1)" [occupiedSeats]='unavailableSeats' (updateParent)='onUpdateParent($event)' (submitToParent)='onSubmitToParent($event)'></app-seat-config1>
+<app-seat-config2 *ngIf="isSeatingConfig(2)" [occupiedSeats]='unavailableSeats' (updateParent)='onUpdateParent($event)' (submitToParent)='onSubmitToParent($event)'></app-seat-config2>

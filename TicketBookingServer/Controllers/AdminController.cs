@@ -53,16 +53,21 @@ namespace WebApplication2.Controllers
             var movieAddEditViewModel = new MovieAddEditViewModel
             {
                 Movie = new Movie(),
-                Genres = _genreRepository.AllGenres
+                Genres = _genreRepository.AllGenres,
+                Minutes = 0,
+                Hours = 0
             };
             return View(movieAddEditViewModel);
         }
         [HttpPost]
-        public IActionResult AddMovie(Movie movie)
+        public IActionResult AddMovie(MovieAddEditViewModel mvm)
         {
-            movie.Genre = _genreRepository.GetGenreById(movie.MovieId);
-            movie.Duration = new TimeSpan(0, 2, 0, 0, 0);
-            bool succeed = _movieRepository.AddMovie(movie);
+            
+            mvm.Movie.Genre = _genreRepository.GetGenreById(mvm.Movie.MovieId);
+            mvm.Movie.Duration = new TimeSpan(mvm.Hours, mvm.Minutes, 0);
+
+            bool succeed = _movieRepository.AddMovie(mvm.Movie);
+
             if (succeed)
             {
                 return RedirectToAction("MovieManagement");
@@ -84,7 +89,9 @@ namespace WebApplication2.Controllers
                 var movieAddEditViewModel = new MovieAddEditViewModel
                 {
                     Movie = selectedMovie,
-                    Genres = _genreRepository.AllGenres
+                    Genres = _genreRepository.AllGenres,
+                    Hours = selectedMovie.Duration.Hours,
+                    Minutes = selectedMovie.Duration.Minutes
                 };
                 return View(movieAddEditViewModel);
             }
@@ -96,17 +103,18 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateMovie(Movie movie)
+        public IActionResult UpdateMovie(MovieAddEditViewModel mvm)
         {
-            Movie selectedMovie = _movieRepository.GetMovieById(movie.MovieId);
+            Movie selectedMovie = _movieRepository.GetMovieById(mvm.Movie.MovieId);
             if (selectedMovie != null)
             {
-                selectedMovie.Title = movie.Title;
-                selectedMovie.Description = movie.Description;
-                selectedMovie.ImageUrl = movie.ImageUrl;
-                selectedMovie.GenreId = movie.GenreId;
-                selectedMovie.Genre = _genreRepository.GetGenreById(movie.GenreId);
-                selectedMovie.Price = Math.Round(movie.Price, 2);
+                selectedMovie.Title = mvm.Movie.Title;
+                selectedMovie.Description = mvm.Movie.Description;
+                selectedMovie.ImageUrl = mvm.Movie.ImageUrl;
+                selectedMovie.GenreId = mvm.Movie.GenreId;
+                selectedMovie.Genre = _genreRepository.GetGenreById(mvm.Movie.GenreId);
+                selectedMovie.Price = Math.Round(mvm.Movie.Price, 2);
+                selectedMovie.Duration = new TimeSpan(mvm.Hours, mvm.Minutes, 0);
                 bool succeed = _movieRepository.UpdateMovie(selectedMovie);
                 if (succeed)
                 {
@@ -283,9 +291,11 @@ namespace WebApplication2.Controllers
             var getConflicts = _screeningRepository.AllScreening.Where(s =>
             {
                 bool sameTheatre = (s.TheatreId == screening.Theatre.TheatreId);
-                bool startTimeOverlap = (s.ScreeningDateTime >= screening.ScreeningDateTime || s.EndDateTime >= screening.ScreeningDateTime);
-                bool endTimeOverlap = (s.ScreeningDateTime <= screening.EndDateTime || s.EndDateTime <= screening.EndDateTime);
-                return (startTimeOverlap || endTimeOverlap) && sameTheatre;
+                bool startTimeOverlap = (s.ScreeningDateTime <= screening.ScreeningDateTime && s.EndDateTime >= screening.ScreeningDateTime);
+                bool endTimeOverlap = (s.ScreeningDateTime <= screening.EndDateTime && s.EndDateTime >= screening.EndDateTime);
+                bool fullOverlap = (s.ScreeningDateTime >= screening.ScreeningDateTime && s.EndDateTime <= screening.EndDateTime);
+
+                return (startTimeOverlap || endTimeOverlap || fullOverlap) && sameTheatre;
             });
 
             if(getConflicts.Count() > 0)

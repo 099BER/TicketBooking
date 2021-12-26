@@ -1,9 +1,10 @@
 ﻿@model Screening
 <h2>@Model.Movie.Title</h2>
-<div class="thumbnail">
-    <img alt="@Model.Movie.Title" src="@Model.Movie.ImageUrl"/>
+<div>
+    <img alt="@Model.Movie.Title" src="@Model.Movie.ImageUrl" style="height:50em;"/>
     <div class="caption-full">
-        <h3 class="pull-right">@Model.Movie.Price.ToString("c")</h3>
+        <h3>@Model.Movie.Price.ToString("c")</h3>
+        <h3><strong>@Model.Movie.Genre.GenreName</strong></h3>
         <p>@Model.Movie.Description</p>
         <div class="Buy tickets">
             <p class="button">
