@@ -66,6 +66,12 @@ namespace WebApplication2.Controllers
             mvm.Movie.Genre = _genreRepository.GetGenreById(mvm.Movie.MovieId);
             mvm.Movie.Duration = new TimeSpan(mvm.Hours, mvm.Minutes, 0);
 
+            if (!ModelState.IsValid)
+            {
+                mvm.Genres = _genreRepository.AllGenres;
+                return View(mvm);
+            }
+
             bool succeed = _movieRepository.AddMovie(mvm.Movie);
 
             if (succeed)
@@ -77,7 +83,7 @@ namespace WebApplication2.Controllers
                 ModelState.AddModelError("", "Something went wrong adding the movie.");
             }
 
-            return RedirectToAction("MovieManagement");
+            return View(mvm);
         }
 
         [HttpGet]
@@ -115,6 +121,16 @@ namespace WebApplication2.Controllers
                 selectedMovie.Genre = _genreRepository.GetGenreById(mvm.Movie.GenreId);
                 selectedMovie.Price = Math.Round(mvm.Movie.Price, 2);
                 selectedMovie.Duration = new TimeSpan(mvm.Hours, mvm.Minutes, 0);
+
+                if (!ModelState.IsValid)
+                {
+                    mvm.Movie = selectedMovie;
+                    mvm.Genres = _genreRepository.AllGenres;
+                    mvm.Hours = selectedMovie.Duration.Hours;
+                    mvm.Minutes = selectedMovie.Duration.Minutes;
+                    return View(mvm);
+                }
+
                 bool succeed = _movieRepository.UpdateMovie(selectedMovie);
                 if (succeed)
                 {
@@ -123,6 +139,7 @@ namespace WebApplication2.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Something went wrong while updating the movie.");
+                    return View(mvm);
                 }
             }
             else
