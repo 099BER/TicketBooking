@@ -71,7 +71,7 @@ namespace TicketBookingServer.Controllers
                 var order = new Order
                 {
                     ScreeningId = screeningId,
-                    MovieId = movieId,
+                    Screening = _screeningRepository.GetScreeningById(screeningId),
                     UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value,
                     ChosenSeats = chosenSeats,
                     OrderTotal = chosenSeats.Count() * movie.Price

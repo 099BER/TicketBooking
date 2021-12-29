@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace TicketBookingServer.Models
 
         public IEnumerable<Order> AllOrdersForUser(string userId)
         {
-            return _appDbContext.Orders.Where(o => o.UserId == userId);
+            return _appDbContext.Orders.Where(o => o.UserId == userId).Include(o => o.Screening).ThenInclude(s => s.Movie).Include(o => o.ChosenSeats);
         }
 
         public void CreateOrder(Order order)

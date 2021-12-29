@@ -270,7 +270,27 @@ namespace TicketBookingServer.Migrations
                         new
                         {
                             GenreId = 3,
-                            GenreName = "Horror"
+                            GenreName = "Action"
+                        },
+                        new
+                        {
+                            GenreId = 4,
+                            GenreName = "Drama"
+                        },
+                        new
+                        {
+                            GenreId = 5,
+                            GenreName = "Fantasy"
+                        },
+                        new
+                        {
+                            GenreId = 6,
+                            GenreName = "Mystery"
+                        },
+                        new
+                        {
+                            GenreId = 7,
+                            GenreName = "Thriller"
                         });
                 });
 
@@ -304,38 +324,6 @@ namespace TicketBookingServer.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("Movies");
-
-                    b.HasData(
-                        new
-                        {
-                            MovieId = 1,
-                            Description = "The first movie ever created.",
-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
-                            GenreId = 1,
-                            ImageUrl = "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg",
-                            Price = 20m,
-                            Title = "Movie 1: First Movie"
-                        },
-                        new
-                        {
-                            MovieId = 2,
-                            Description = "The second movie ever created.",
-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
-                            GenreId = 2,
-                            ImageUrl = "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg",
-                            Price = 20m,
-                            Title = "Movie 2: Second Movie"
-                        },
-                        new
-                        {
-                            MovieId = 3,
-                            Description = "The third movie ever created.",
-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
-                            GenreId = 3,
-                            ImageUrl = "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg",
-                            Price = 20m,
-                            Title = "Movie 3: Third Movie"
-                        });
                 });
 
             modelBuilder.Entity("TicketBookingServer.Models.Order", b =>
@@ -344,9 +332,6 @@ namespace TicketBookingServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("OrderPlaced")
                         .HasColumnType("datetime2");
@@ -361,6 +346,8 @@ namespace TicketBookingServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("ScreeningId");
 
                     b.ToTable("Orders");
                 });
@@ -391,40 +378,6 @@ namespace TicketBookingServer.Migrations
                     b.HasIndex("TheatreId");
 
                     b.ToTable("Screenings");
-
-                    b.HasData(
-                        new
-                        {
-                            ScreeningId = 1,
-                            EndDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MovieId = 1,
-                            ScreeningDateTime = new DateTime(2021, 12, 25, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TheatreId = 1
-                        },
-                        new
-                        {
-                            ScreeningId = 2,
-                            EndDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MovieId = 1,
-                            ScreeningDateTime = new DateTime(2021, 12, 26, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TheatreId = 1
-                        },
-                        new
-                        {
-                            ScreeningId = 3,
-                            EndDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MovieId = 2,
-                            ScreeningDateTime = new DateTime(2021, 12, 25, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TheatreId = 2
-                        },
-                        new
-                        {
-                            ScreeningId = 4,
-                            EndDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MovieId = 3,
-                            ScreeningDateTime = new DateTime(2021, 12, 26, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TheatreId = 2
-                        });
                 });
 
             modelBuilder.Entity("TicketBookingServer.Models.SeatingConfig", b =>
@@ -560,6 +513,17 @@ namespace TicketBookingServer.Migrations
                         .IsRequired();
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("TicketBookingServer.Models.Order", b =>
+                {
+                    b.HasOne("TicketBookingServer.Models.Screening", "Screening")
+                        .WithMany()
+                        .HasForeignKey("ScreeningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Screening");
                 });
 
             modelBuilder.Entity("TicketBookingServer.Models.Screening", b =>

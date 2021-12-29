@@ -9,7 +9,7 @@ namespace TicketBookingServer.Models
     {
         public int OrderId { get; set; }
         public int ScreeningId { get; set; }
-        public int MovieId { get; set; }
+        public Screening Screening { get; set; }
         public string UserId { get; set; }
         public List<ChosenSeat> ChosenSeats { get; set; }
         public decimal OrderTotal { get; set; }

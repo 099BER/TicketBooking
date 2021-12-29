@@ -60,30 +60,6 @@ namespace TicketBookingServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AddressLine1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZipCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    State = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    OrderTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OrderPlaced = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SeatingConfigs",
                 columns: table => new
                 {
@@ -212,7 +188,8 @@ namespace TicketBookingServer.Migrations
                     GenreId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,7 +231,8 @@ namespace TicketBookingServer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     TheatreId = table.Column<int>(type: "int", nullable: false),
-                    ScreeningDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ScreeningDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,48 +252,21 @@ namespace TicketBookingServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
+                name: "Orders",
                 columns: table => new
                 {
-                    OrderItemId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
                     ScreeningId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ItemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OrderPlaced = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Screenings_ScreeningId",
-                        column: x => x.ScreeningId,
-                        principalTable: "Screenings",
-                        principalColumn: "ScreeningId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ShoppingCartItems",
-                columns: table => new
-                {
-                    ShoppingCartItemId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ShoppingCartId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ScreeningId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShoppingCartItems", x => x.ShoppingCartItemId);
-                    table.ForeignKey(
-                        name: "FK_ShoppingCartItems_Screenings_ScreeningId",
+                        name: "FK_Orders_Screenings_ScreeningId",
                         column: x => x.ScreeningId,
                         principalTable: "Screenings",
                         principalColumn: "ScreeningId",
@@ -328,25 +279,19 @@ namespace TicketBookingServer.Migrations
                 {
                     ChosenSeatId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderItemId = table.Column<int>(type: "int", nullable: false),
-                    SeatNumber = table.Column<int>(type: "int", nullable: false),
-                    ShoppingCartItemId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ScreeningId = table.Column<int>(type: "int", nullable: false),
+                    SeatNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChosenSeats", x => x.ChosenSeatId);
                     table.ForeignKey(
-                        name: "FK_ChosenSeats_OrderItems_OrderItemId",
-                        column: x => x.OrderItemId,
-                        principalTable: "OrderItems",
-                        principalColumn: "OrderItemId",
+                        name: "FK_ChosenSeats_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ChosenSeats_ShoppingCartItems_ShoppingCartItemId",
-                        column: x => x.ShoppingCartItemId,
-                        principalTable: "ShoppingCartItems",
-                        principalColumn: "ShoppingCartItemId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -356,7 +301,11 @@ namespace TicketBookingServer.Migrations
                 {
                     { 1, "Comedy" },
                     { 2, "Documentary" },
-                    { 3, "Horror" }
+                    { 3, "Action" },
+                    { 4, "Drama" },
+                    { 5, "Fantasy" },
+                    { 6, "Mystery" },
+                    { 7, "Thriller" }
                 });
 
             migrationBuilder.InsertData(
@@ -369,34 +318,14 @@ namespace TicketBookingServer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Movies",
-                columns: new[] { "MovieId", "Description", "GenreId", "ImageUrl", "Price", "Title" },
-                values: new object[,]
-                {
-                    { 1, "The first movie ever created.", 1, "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg", 20m, "Movie 1: First Movie" },
-                    { 2, "The second movie ever created.", 2, "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg", 20m, "Movie 2: Second Movie" },
-                    { 3, "The third movie ever created.", 3, "https://demostorelokesh12.blob.core.windows.net/images/prawns.jpg", 20m, "Movie 3: Third Movie" }
-                });
+                table: "Theatres",
+                columns: new[] { "TheatreId", "Description", "Name", "SeatingConfigId" },
+                values: new object[] { 1, null, "Small Screen", 1 });
 
             migrationBuilder.InsertData(
                 table: "Theatres",
                 columns: new[] { "TheatreId", "Description", "Name", "SeatingConfigId" },
-                values: new object[,]
-                {
-                    { 1, null, "Small Screen", 1 },
-                    { 2, null, "Large Screen", 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Screenings",
-                columns: new[] { "ScreeningId", "MovieId", "ScreeningDateTime", "TheatreId" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2021, 12, 25, 10, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 1, new DateTime(2021, 12, 26, 10, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 3, 2, new DateTime(2021, 12, 25, 10, 0, 0, 0, DateTimeKind.Unspecified), 2 },
-                    { 4, 3, new DateTime(2021, 12, 26, 10, 0, 0, 0, DateTimeKind.Unspecified), 2 }
-                });
+                values: new object[] { 2, null, "Large Screen", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -438,14 +367,9 @@ namespace TicketBookingServer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChosenSeats_OrderItemId",
+                name: "IX_ChosenSeats_OrderId",
                 table: "ChosenSeats",
-                column: "OrderItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChosenSeats_ShoppingCartItemId",
-                table: "ChosenSeats",
-                column: "ShoppingCartItemId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_GenreId",
@@ -453,13 +377,8 @@ namespace TicketBookingServer.Migrations
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_OrderId",
-                table: "OrderItems",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ScreeningId",
-                table: "OrderItems",
+                name: "IX_Orders_ScreeningId",
+                table: "Orders",
                 column: "ScreeningId");
 
             migrationBuilder.CreateIndex(
@@ -471,11 +390,6 @@ namespace TicketBookingServer.Migrations
                 name: "IX_Screenings_TheatreId",
                 table: "Screenings",
                 column: "TheatreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCartItems_ScreeningId",
-                table: "ShoppingCartItems",
-                column: "ScreeningId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Theatres_SeatingConfigId",
@@ -508,12 +422,6 @@ namespace TicketBookingServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "OrderItems");
-
-            migrationBuilder.DropTable(
-                name: "ShoppingCartItems");
 
             migrationBuilder.DropTable(
                 name: "Orders");
