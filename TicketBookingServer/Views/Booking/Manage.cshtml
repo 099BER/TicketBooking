@@ -20,8 +20,10 @@ else
                 <td>@order.OrderId</td>
                 <td>
                     <div>Order total: @order.OrderTotal.ToString("C") </div>
+                    <div>Movie title:</div>
+                    <div>Screening date:</div>
+                    <div>Seat numbers:</div>
                     <div>Date ordered: @order.OrderPlaced.ToShortDateString()</div>
-                
                 </td>
                 <td>
                     <form asp-action="DeleteBookingByOrderId" asp-route-id="@order.OrderId" method="get">

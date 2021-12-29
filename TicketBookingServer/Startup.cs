@@ -48,10 +48,7 @@ namespace TicketBookingServer
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
-                    //.AllowCredentials());
             });
-            //services.AddTransient
-            //services.AddSingleton
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "AngularApp/dist/ticket-booking-client";

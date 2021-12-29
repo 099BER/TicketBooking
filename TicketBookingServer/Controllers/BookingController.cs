@@ -53,7 +53,6 @@ namespace TicketBookingServer.Controllers
         [HttpPost]
         public IActionResult PostBookingData([FromBody] List<int> seatSelection)
         {
-            //System.Diagnostics.Debug.WriteLine(selectedSeats.Count());
             int screeningId = HttpContext.Session.GetInt32("screeningId") ?? 0;
             System.Diagnostics.Debug.WriteLine(seatSelection.Count());
             try
