@@ -4,8 +4,6 @@
 <form asp-controller="Admin" asp-action="EditTheatre" method="post" class="form-horizontal" role="form">
     <h4>You can change theatre specs below</h4>
     <hr/>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <input asp-for="Theatre.TheatreId" class="form-control" value="@Model.Theatre.TheatreId"/>
     <div class="form-group">
         <label asp-for="Theatre.Name" class="col-md-2 control-label">Name</label>
         <div class="col-md-10">
@@ -21,7 +19,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Theatre.SeatingConfigId" class="col-md-2 control-label"></label>
+        <label asp-for="Theatre.SeatingConfigId" class="col-md-2 control-label">Seating Config (Capacity)</label>
         <div class="col-md-10">
             <select asp-for="Theatre.SeatingConfigId" class="form-select">
                 @foreach(var seatingConfig in Model.SeatingConfigs)
@@ -41,7 +39,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-primary" value="Save config"/>
-            <a asp-action="EditTheatre" class="btn btn-primary">Cancel</a>
+            <a asp-action="TheatreManagement" class="btn btn-primary">Cancel</a>
         </div>
     </div>
 </form>
